@@ -1,4 +1,4 @@
-export function getAppointmentsForDay(state, dayname) {
+export default function getAppointmentsForDay(state, dayname) {
   //coding golf it's too robotic too clever
   return (
     state.days
