@@ -5,6 +5,7 @@ import DayList from "components/DayList";
 import "components/Appointment";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import useVisualMode from "hooks/useVisualMode"
 
 export default function Application(props) {
   /*   const [days, setDays] = useState([]);
@@ -40,7 +41,8 @@ export default function Application(props) {
     return (
       <Appointment
         key={appointment.id}
-        {...appointment}
+        id= {appointment.id}
+        time ={appointment.time}
         interview={interview}
       />
     );
@@ -66,7 +68,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {appointments}
-        <Appointment time="5pm" />
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
