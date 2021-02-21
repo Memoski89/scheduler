@@ -4,8 +4,12 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import "components/Appointment";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
-import useVisualMode from "hooks/useVisualMode"
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
+import useVisualMode from "hooks/useVisualMode";
 
 export default function Application(props) {
   /*   const [days, setDays] = useState([]);
@@ -36,14 +40,38 @@ export default function Application(props) {
   }, []);
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const dailyInterviewers = getInterviewersForDay(state, state.day);
+
+
+  function bookInterview(id, newInterview) {
+    const appointmentsCopy = { ...state.appointments };
+    const newAppointment = { ...appointmentsCopy[id], interview: newInterview };
+    appointmentsCopy[id] = newAppointment;
+    setState({ ...state, appointments: appointmentsCopy });
+    
+ 
+ 
+  }
+
   const appointments = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
+    const interviewer = function () {
+      dailyInterviewers.forEach((interviewer) => {
+        if (appointment.interview.interviewer === interviewer.id) {
+          return interviewer;
+        }
+      });
+    };
+
     return (
       <Appointment
         key={appointment.id}
-        id= {appointment.id}
-        time ={appointment.time}
+        id={appointment.id}
+        time={appointment.time}
         interview={interview}
+        interviewers={dailyInterviewers}
+        interviewer={interviewer}
+        bookInterview={bookInterview}
       />
     );
   });
