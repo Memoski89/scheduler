@@ -44,7 +44,7 @@ export function getInterview(state, interview) {
   const interviewerId = interview.interviewer;
   const interviewer = state.interviewers[interviewerId];
   const result = { ...interview, interviewer };
-  console.log(result);
+
   return result;
 
   // return (
@@ -72,6 +72,6 @@ export function getInterviewersForDay(state, dayname) {
       result.push(state.interviewers[id]);
     }
   }
-  console.log(result);
+
   return result;
 }
