@@ -44,9 +44,9 @@ export default function Application(props) {
 
   function bookInterview(id, interview) {
     // console.log("newinterview", newInterview);
-    const appointmentsCopy = { ...state.appointments };
-    const newAppointment = { ...appointmentsCopy[id], interview: interview };
-    appointmentsCopy[id] = newAppointment;
+    // const appointmentsCopy = { ...state.appointments };
+    // const newAppointment = { ...appointmentsCopy[id], interview: interview };
+    // appointmentsCopy[id] = newAppointment;
     const apptURLId = `/api/appointments/${id}`;
 
     // console.log("newappointment", newAppointment);
@@ -57,6 +57,21 @@ export default function Application(props) {
         interview: { ...interview },
       };
       const appointments = { ...state.appointments, [id]: appointment };
+      setState({ ...state, appointments: appointments });
+    });
+  }
+  function cancelInterview(id, interview) {
+    interview = null;
+    const apptURLId = `/api/appointments/${id}`;
+
+    return axios.delete(apptURLId, { interview }).then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview },
+      };
+
+      const appointments = { ...state.appointments, [id]: appointment };
+
       setState({ ...state, appointments: appointments });
     });
   }
@@ -80,6 +95,7 @@ export default function Application(props) {
         interviewers={dailyInterviewers}
         interviewer={interviewer}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });

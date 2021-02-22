@@ -29,9 +29,9 @@ export default function Form(props) {
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
-            value={name}
+            value={props.value}
             onChange={(event) => setName(event.target.value)}
-            placeholder="Enter Student Name"
+            placeholder="Enter Student Name" 
             /*
           This must be a controlled component
         */
@@ -48,7 +48,7 @@ export default function Form(props) {
           <Button onClick={cancel} danger>
             Cancel
           </Button>
-          <Button onClick={save} confirm>
+          <Button onClick={save} confirm >
             Save
           </Button>
         </section>
