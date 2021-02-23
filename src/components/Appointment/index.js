@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import "components/Appointment/styles.scss";
 import Header from "components/Appointment/Header";
 import Show from "components/Appointment/Show";
@@ -28,6 +28,12 @@ export default function Appointment(props) {
       student: name,
       interviewer,
     };
+    if (!name) {
+      return alert("student name cannot be blank");
+    }
+    if (!interviewer) {
+      return alert("please select an interviewer");
+    }
     transition(SAVING);
     props
       .bookInterview(props.id, interview)
@@ -46,7 +52,9 @@ export default function Appointment(props) {
       .catch((error) => transition(ERROR_DELETE, true));
   }
   return (
-    <article className="appointment">
+    <article className="appointment"
+    data-testid="appointment">
+
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === CREATE && (
@@ -76,7 +84,7 @@ export default function Appointment(props) {
       )}
       {mode === EDIT && (
         <Form
-          value={props.interview.student}
+          name = {props.interview.student}
           interviewers={interviewers}
           onCancel={() => back(Show)}
           onSave={save}
@@ -97,12 +105,3 @@ export default function Appointment(props) {
     </article>
   );
 }
-
-// {props.interview ? (
-//   <Show
-//     student={props.interview.student}
-//     name={props.interview.interviewer.name}
-//   />
-// ) : (
-//   <Empty />
-// )}

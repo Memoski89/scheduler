@@ -31,15 +31,16 @@ it("renders a danger button", () => {
 });
 
 it("renders a clickable button", () => {
+  /* Arrange creating mock functions */
   const handleClick = jest.fn();
   const { getByText } = render(
     <Button onClick={handleClick}>Clickable</Button>
   );
-
+/* Act making an interaction with the U.I */
   const button = getByText("Clickable");
 
   fireEvent.click(button);
-
+/* Assert your expects  */
   expect(handleClick).toHaveBeenCalledTimes(1);
 });
 

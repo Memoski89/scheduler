@@ -38,11 +38,6 @@ export default function useApplicationData() {
   }
 
   function bookInterview(id, interview) {
-    // console.log("newinterview", newInterview);
-    // const appointmentsCopy = { ...state.appointments };
-    // const newAppointment = { ...appointmentsCopy[id], interview: interview };
-    // appointmentsCopy[id] = newAppointment;
-
     let day = getDay(id);
 
     let new_day = {
