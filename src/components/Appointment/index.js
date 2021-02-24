@@ -28,12 +28,12 @@ export default function Appointment(props) {
       student: name,
       interviewer,
     };
-    if (!name) {
-      return alert("student name cannot be blank");
-    }
-    if (!interviewer) {
-      return alert("please select an interviewer");
-    }
+    // if (!name) {
+    //   return alert("student name cannot be blank");
+    // }
+    // if (!interviewer) {
+    //   return alert("please select an interviewer");
+    // }
     transition(SAVING);
     props
       .bookInterview(props.id, interview)
