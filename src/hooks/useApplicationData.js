@@ -66,6 +66,36 @@ export default function useApplicationData() {
       })
       .catch((err) => {});
   }
+  function bookInterviewOnEdit(id, interview) {
+    let day = getDay(id);
+    let new_day = {
+      ...day,
+      spots: day.spots,
+    };
+
+    let new_days = [...state.days];
+
+    for (let i = 0; i < state.days.length; i++) {
+      if (state.days[i].id === new_day.id) {
+        new_days.splice(i, 1, new_day);
+      }
+    }
+
+    const apptURLId = `/api/appointments/${id}`;
+
+    return axios
+      .put(apptURLId, { interview })
+      .then(() => {
+        const appointment = {
+          ...state.appointments[id],
+          interview: { ...interview },
+        };
+        const appointments = { ...state.appointments, [id]: appointment };
+        setState({ ...state, days: new_days, appointments: appointments });
+      })
+      .catch((err) => {});
+  }
+
 
   function cancelInterview(id, interview) {
     interview = null;
@@ -96,5 +126,5 @@ export default function useApplicationData() {
     });
   }
 
-  return { state, setState, getData, bookInterview, cancelInterview };
+  return { state, setState, getData, bookInterview, cancelInterview, bookInterviewOnEdit};
 }

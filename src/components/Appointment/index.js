@@ -28,12 +28,6 @@ export default function Appointment(props) {
       student: name,
       interviewer,
     };
-    // if (!name) {
-    //   return alert("student name cannot be blank");
-    // }
-    // if (!interviewer) {
-    //   return alert("please select an interviewer");
-    // }
     transition(SAVING);
     props
       .bookInterview(props.id, interview)
@@ -42,6 +36,21 @@ export default function Appointment(props) {
       })
       .catch((error) => transition(ERROR_SAVE, true));
   }
+  
+  function saveOnEdit(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer,
+    };
+    transition(SAVING);
+    props
+      .bookInterviewOnEdit(props.id, interview)
+      .then(() => {
+        transition(SHOW);
+      })
+      .catch((error) => transition(ERROR_SAVE, true));
+  }
+
   function deleteAppointment() {
     transition(DELETE, true);
     props
@@ -87,7 +96,7 @@ export default function Appointment(props) {
           name = {props.interview.student}
           interviewers={interviewers}
           onCancel={() => back(Show)}
-          onSave={save}
+          onSave={saveOnEdit}
         />
       )}
       {mode === ERROR_SAVE && (
