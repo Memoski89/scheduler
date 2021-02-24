@@ -54,17 +54,14 @@ export default function useApplicationData() {
 
     const apptURLId = `/api/appointments/${id}`;
 
-    return axios
-      .put(apptURLId, { interview })
-      .then(() => {
-        const appointment = {
-          ...state.appointments[id],
-          interview: { ...interview },
-        };
-        const appointments = { ...state.appointments, [id]: appointment };
-        setState({ ...state, days: new_days, appointments: appointments });
-      })
-      .catch((err) => {});
+    return axios.put(apptURLId, { interview }).then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview },
+      };
+      const appointments = { ...state.appointments, [id]: appointment };
+      setState({ ...state, days: new_days, appointments: appointments });
+    });
   }
   function bookInterviewOnEdit(id, interview) {
     let day = getDay(id);
@@ -83,19 +80,15 @@ export default function useApplicationData() {
 
     const apptURLId = `/api/appointments/${id}`;
 
-    return axios
-      .put(apptURLId, { interview })
-      .then(() => {
-        const appointment = {
-          ...state.appointments[id],
-          interview: { ...interview },
-        };
-        const appointments = { ...state.appointments, [id]: appointment };
-        setState({ ...state, days: new_days, appointments: appointments });
-      })
-      .catch((err) => {});
+    return axios.put(apptURLId, { interview }).then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview },
+      };
+      const appointments = { ...state.appointments, [id]: appointment };
+      setState({ ...state, days: new_days, appointments: appointments });
+    });
   }
-
 
   function cancelInterview(id, interview) {
     interview = null;
@@ -126,5 +119,12 @@ export default function useApplicationData() {
     });
   }
 
-  return { state, setState, getData, bookInterview, cancelInterview, bookInterviewOnEdit};
+  return {
+    state,
+    setState,
+    getData,
+    bookInterview,
+    cancelInterview,
+    bookInterviewOnEdit,
+  };
 }

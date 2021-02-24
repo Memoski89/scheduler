@@ -122,23 +122,51 @@ describe("Form", () => {
     // Read the errors because sometimes they say that await cannot be outside of an async function
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
-  it("shows the save error when failing to save an appointment", () => {
-    axios.put.mockRejectedValueOnce();
-  });
+
   it("shows the save error when failing to save an appointment", async () => {
-    const { container, debug } = render(<Application />);
-    // 2. Wait until the text "Archie Cohen" is displayed.
-    // debug()
+    axios.put.mockRejectedValueOnce();
+
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointments = getAllByTestId(container, "appointment");
+
+    const appointment = appointments[0];
+
+    fireEvent.click(getByAltText(appointment, "Add"));
+
+    fireEvent.change(getByPlaceholderText(appointment, "Enter Student Name"), {
+      target: { value: "Lydia Miller-Jones" },
+    });
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+
+    fireEvent.click(getByText(appointment, "Save"));
+    await waitForElement(() => getByText(appointment, "Saving"));
+    expect(getByText(appointment, "Error")).toBeInTheDocument();
+
+    expect(
+      getByText(appointment, "There was an error saving your appointment")
+    ).toBeInTheDocument();
+  });
+  it("shows the delete error when failing to delete an existing appointment", async () => {
+    axios.delete.mockRejectedValueOnce();
+    const { container } = render(<Application />);
+
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const appointment = getAllByTestId(
       container,
       "appointment"
     ).find((appointment) => queryByText(appointment, "Archie Cohen"));
 
-    fireEvent.click(getByText(appointment, "Confirm"));
-
+    fireEvent.click(getByAltText(appointment, "Delete"));
     expect(
-      getByText(appointment, "There was an error saving your appointment")
+      getByText(appointment, "Are you sure you want to delete?")
+    ).toBeInTheDocument();
+    fireEvent.click(getByText(appointment, "Confirm"));
+    await waitForElement(() => getByText(appointment, "Deleting"));
+    expect(getByText(appointment, "Error")).toBeInTheDocument();
+    expect(
+      getByText(appointment, "There was an error deleting your appointment")
     ).toBeInTheDocument();
   });
 });
