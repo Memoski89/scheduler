@@ -32,6 +32,23 @@ npm run cypress
 ```
 
 
-!["Appointments"](https://github.com/Memoski89/tweeter/blob/master/public/images/desktop.png?raw=true)
+!["Appointments"](https://github.com/Memoski89/scheduler/blob/master/docs/Mondayblank.png?raw=true)
 
-!["Mobile View"](https://github.com/Memoski89/tweeter/blob/master/public/images/mobile.png?raw=true)
+!["New Appointment"](https://github.com/Memoski89/scheduler/blob/master/docs/createnewappointment.png?raw=true)
+![Insert name](https://github.com/Memoski89/scheduler/blob/master/docs/writeaname.png?raw=true)
+
+!["Choose an Interviewer"](https://github.com/Memoski89/scheduler/blob/master/docs/selectinterviewer.png?raw=true)
+
+!["Saving"](https://github.com/Memoski89/scheduler/blob/master/docs/Saving.png?raw=true)
+
+!["Booked"](https://github.com/Memoski89/scheduler/blob/master/docs/MondayNewinterview.png?raw=true)
+
+!["New Day Edit"](https://github.com/Memoski89/scheduler/blob/master/docs/Tuesdayedit.png?raw=true)
+
+!["Delete Confirmation"](https://github.com/Memoski89/scheduler/blob/master/docs/EditConfirm.png?raw=true)
+
+!["Deleting"](https://github.com/Memoski89/scheduler/blob/master/docs/Deleting.png?raw=true)
+
+!["Error Delete"](https://github.com/Memoski89/scheduler/blob/master/docs/ErrorDelete.png?raw=true)
+
+!["Error Saving"](https://github.com/Memoski89/scheduler/blob/master/docs/ErrorSave.png?raw=true)
