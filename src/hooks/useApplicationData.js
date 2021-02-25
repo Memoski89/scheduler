@@ -63,6 +63,7 @@ export default function useApplicationData() {
       setState({ ...state, days: new_days, appointments: appointments });
     });
   }
+  //bookinterviewonedit will not increment the spot.days 
   function bookInterviewOnEdit(id, interview) {
     let day = getDay(id);
     let new_day = {
