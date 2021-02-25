@@ -27,13 +27,9 @@ export default function Form(props) {
 
   // cancel function when user click cancel button
   function cancel() {
-    // props.onCancel;
     reset();
     props.onCancel();
   }
-  /*   const save = function () {
-    props.onSave(name, interviewer);
-  }; */
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -49,9 +45,6 @@ export default function Form(props) {
               setName(event.target.value);
             }}
             data-testid="student-name-input"
-            /*
-          This must be a controlled component
-        */
           />
           <section className="appointment__validation">{error}</section>
         </form>

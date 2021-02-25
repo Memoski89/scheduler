@@ -20,15 +20,5 @@ export default function useVisualMode(initial) {
       setHistory(history.slice(0, 1));
     }
   }
-
-  /*    if (history.length > 1) {
-      history.pop();
-      setMode(history[history.length - 1]);
-      setHistory(history);
-
-      // setHistory((previous) => [...previous]);
-    }
-    return null;
-  } */
   return { mode, transition, back };
 }
