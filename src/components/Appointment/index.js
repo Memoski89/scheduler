@@ -36,7 +36,7 @@ export default function Appointment(props) {
       })
       .catch((error) => transition(ERROR_SAVE, true));
   }
-  
+
   function saveOnEdit(name, interviewer) {
     const interview = {
       student: name,
@@ -61,9 +61,7 @@ export default function Appointment(props) {
       .catch((error) => transition(ERROR_DELETE, true));
   }
   return (
-    <article className="appointment"
-    data-testid="appointment">
-
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === CREATE && (
@@ -93,7 +91,7 @@ export default function Appointment(props) {
       )}
       {mode === EDIT && (
         <Form
-          name = {props.interview.student}
+          name={props.interview.student}
           interviewers={interviewers}
           onCancel={() => back(Show)}
           onSave={saveOnEdit}

@@ -13,7 +13,6 @@ import {
 } from "helpers/selectors";
 import useApplicationData from "hooks/useApplicationData";
 
-
 export default function Application(props) {
   const {
     state,
@@ -31,14 +30,6 @@ export default function Application(props) {
   const appointments = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
-    const interviewer = function () {
-      dailyInterviewers.forEach((interviewer) => {
-        if (appointment.interview.interviewer === interviewer.id) {
-          return interviewer;
-        }
-      });
-    };
-
     return (
       <Appointment
         key={appointment.id}
@@ -46,9 +37,8 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
-        interviewer={interviewer}
         bookInterview={bookInterview}
-        bookInterviewOnEdit ={bookInterviewOnEdit}
+        bookInterviewOnEdit={bookInterviewOnEdit}
         cancelInterview={cancelInterview}
       />
     );

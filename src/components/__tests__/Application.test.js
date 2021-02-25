@@ -65,6 +65,21 @@ describe("Form", () => {
     );
     expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
+  it("loads data, tries to book an appointment, cancels it and return to original state", async () => {
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    const appointments = getAllByTestId(container, "appointment");
+
+    const appointment = appointments[0];
+
+    fireEvent.click(getByAltText(appointment, "Add"));
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" },
+    });
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+
+    fireEvent.click(getByText(appointment, "Cancel"));
+  });
   it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
     // 1. Render the Application.
     const { container } = render(<Application />);
@@ -98,6 +113,48 @@ describe("Form", () => {
     // waitForElement(() => getByText(day, "2 spots remaining"));
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
   });
+
+  it("ensures the event handler wont submit upon pressing enter", async () => {
+    const { container } = render(<Application />);
+
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(
+      container,
+      "appointment"
+    ).find((appointment) => queryByText(appointment, "Archie Cohen"));
+
+    fireEvent.click(getByAltText(appointment, "Edit"));
+
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    //press enter will not submit because of event handler
+    fireEvent.submit(getByPlaceholderText(appointment, /enter student name/i));
+    //expecting nothing to change
+    expect(getByText(appointment, "Save")).toBeInTheDocument();
+  });
+
+  it("ensures a cancel will not change the appointment and return to original state", async () => {
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    const appointment = getAllByTestId(
+      container,
+      "appointment"
+    ).find((appointment) => queryByText(appointment, "Archie Cohen"));
+
+    fireEvent.click(getByAltText(appointment, "Edit"));
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    // clicking on cancel
+    fireEvent.click(getByText(appointment, "Cancel"));
+    // renders original state of page
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    expect(getByText(container, "Archie Cohen")).toBeInTheDocument();
+    //checking if the numbers of spots of have changed upon cancel
+    const day = getAllByTestId(container, "day").find((day) =>
+      queryByText(day, "Monday")
+    );
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+  });
+
   it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
     // We want to start by finding an existing interview.
     // 1. Render the Application.
@@ -112,8 +169,14 @@ describe("Form", () => {
     ).find((appointment) => queryByText(appointment, "Archie Cohen"));
     // With the existing interview we want to find the edit button.
     fireEvent.click(getByAltText(appointment, "Edit"));
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    //test
+
+    fireEvent.click(getByText(appointment, "Save"));
+    await waitForElement(() => getByText(appointment, "Saving"));
+    await waitForElement(() => getByText(container, "Archie Cohen"));
     // We change the name and save the interview.
-    waitForElement(() => getByText(appointment, "Archie Cohen"));
+
     // We don't want the spots to change for "Monday", since this is an edit.
     const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
@@ -147,6 +210,9 @@ describe("Form", () => {
     expect(
       getByText(appointment, "There was an error saving your appointment")
     ).toBeInTheDocument();
+    fireEvent.click(getByAltText(appointment, "Close"));
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    expect(getByText(container, "Archie Cohen")).toBeInTheDocument();
   });
   it("shows the delete error when failing to delete an existing appointment", async () => {
     axios.delete.mockRejectedValueOnce();
@@ -168,5 +234,8 @@ describe("Form", () => {
     expect(
       getByText(appointment, "There was an error deleting your appointment")
     ).toBeInTheDocument();
+    fireEvent.click(getByAltText(appointment, "Close"));
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    expect(getByText(container, "Archie Cohen")).toBeInTheDocument();
   });
 });
